@@ -2,5 +2,9 @@
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule api/v1/(.+)/(.+) api/v1/$1Controller.php?action=$2 [NC,QSA]
+
+# Rule for GET/ requests in the following format "api/v1/{controller}/{action}/{param}.{format}"
+RewriteRule api/v1/(.+)/(.+)/(.*)\.(html|json|xml)? api/v1/$1Controller.php?action=$2&paramOne=$3&format=$4 [NC,QSA]
+
+ErrorDocument 404 /api/v1/HttpErrorController.php?action=NotFound
 </IfModule>
