@@ -47,6 +47,46 @@ class AirportController extends BaseController{
                 break;
         }
     }
+
+    /*
+     *  Finds an airport by city name.
+     *
+     *  GET /Country/{city-name}.{json|xml}
+     *  {city-name}: Required
+     */
+    public function City()
+    {
+        switch ($_SERVER["REQUEST_METHOD"]) {
+            case "GET":
+                $city = $_GET["paramOne"];
+                $responseDataType = $_GET["format"];
+                if ($city === NULL || $responseDataType === NULL) {
+                    $error = new HttpResponseObject(HttpStatusCodes::BAD_REQUEST, "Invalid city name or format selected.");
+                    $this->sendHttpResponse($error->getStatusCode(), ContentTypes::JSON, json_encode($error));
+                }
+
+                $airports = (new AirportRepository())->findByCity($city);
+
+                $this->sendHttpResponse(HttpStatusCodes::OK, ContentTypes::JSON, json_encode($airports, JSON_PRETTY_PRINT));
+                break;
+            case "POST":
+                $error = new HttpResponseObject(HttpStatusCodes::BAD_REQUEST, "Unknown request method.");
+                $this->sendHttpResponse($error->getStatusCode(), ContentTypes::JSON, json_encode($error));
+                break;
+            case "PUT":
+                $error = new HttpResponseObject(HttpStatusCodes::BAD_REQUEST, "Unknown request method.");
+                $this->sendHttpResponse($error->getStatusCode(), ContentTypes::JSON, json_encode($error));
+                break;
+            case "DELETE":
+                $error = new HttpResponseObject(HttpStatusCodes::BAD_REQUEST, "Unknown request method.");
+                $this->sendHttpResponse($error->getStatusCode(), ContentTypes::JSON, json_encode($error));
+                break;
+            default:
+                $error = new HttpResponseObject(HttpStatusCodes::BAD_REQUEST, "Unknown request method.");
+                $this->sendHttpResponse($error->getStatusCode(), ContentTypes::JSON, json_encode($error));
+                break;
+        }
+    }
 }
 
 // invokes web api call

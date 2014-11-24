@@ -9,6 +9,13 @@ class AirportRepository {
 
     }
 
+    public function findByCity($city){
+        $query = "SELECT * FROM assignment4.airports WHERE City LIKE '%$city%';";
+        $resultSet = (new PdoWrapper())->executeQueryWithResultSet($query);
+        return $this->assembleAirportsFromResultSet($resultSet);
+
+    }
+
     private function assembleAirportsFromResultSet($resultSet) {
         $airports = array();
         foreach($resultSet as $record) {
