@@ -24,7 +24,7 @@ class Airport implements JsonSerializable {
     }
 
     public function setCity($city) {
-        $this->name = $city;
+        $this->city = $city;
     }
 
     public function getCountry() {
