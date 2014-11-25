@@ -16,6 +16,13 @@ class AirportRepository {
 
     }
 
+    public function findByIATA($iata){
+        $query = "SELECT * FROM assignment4.airports WHERE IATA_FAA = '$iata';";
+        $resultSet = (new PdoWrapper())->executeQueryWithResultSet($query);
+        return $this->assembleAirportsFromResultSet($resultSet);
+
+    }
+
     public function findByRadius($distance, $lat, $long){
         $radius = 6371; // earths radius in km
 

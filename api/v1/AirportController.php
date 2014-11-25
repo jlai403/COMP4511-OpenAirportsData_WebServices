@@ -74,6 +74,37 @@ class AirportController extends BaseController{
     }
 
     /*
+     *  Finds an airport by IATA (3 letter code).
+     *
+     *  GET /IATA/{3-letter-code}.{json|xml}
+     *  {3-letter-code}: Required
+     */
+    public function IATA()
+    {
+        switch ($_SERVER["REQUEST_METHOD"]) {
+            case "GET":
+                $iata = $_GET["paramOne"] ? $_GET["paramOne"] : $this->sendBadRequestResponse("Undefined IATA (3 letter code).");
+                $responseDataType = $_GET["format"] ? $_GET["format"] : $this->sendBadRequestResponse(ErrorConstants::UNDEFINED_FORMAT_TYPE_MESSAGE);
+
+                $airports = (new AirportRepository())->findByIATA($iata);
+                $this->sendAirportsResponse($airports, $responseDataType);
+                break;
+            case "POST":
+                $this->sendBadRequestResponse("Unknown request method.");
+                break;
+            case "PUT":
+                $this->sendBadRequestResponse("Unknown request method.");
+                break;
+            case "DELETE":
+                $this->sendBadRequestResponse("Unknown request method.");
+                break;
+            default:
+                $this->sendBadRequestResponse("Unknown request method.");
+                break;
+        }
+    }
+
+    /*
      *  Finds an airport within defined radius of latitude and longitude.
      *
      *  GET /Radius/{distance-km}.{json|xml}?lat={latitude}&long={longitude}
