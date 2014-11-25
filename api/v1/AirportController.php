@@ -136,6 +136,40 @@ class AirportController extends BaseController{
     }
 
     /*
+    *  Finds an airport by altitude.
+    *
+    *  GET /Altitude/{altitude}.{json|xml}
+    *  {altitude}: Required
+    */
+    public function Altitude()
+    {
+        switch ($_SERVER["REQUEST_METHOD"]) {
+            case "GET":
+                $altitude = $_GET["paramOne"] ? $_GET["paramOne"] : $this->sendBadRequestResponse("Undefined altitude.");
+                $responseDataType = $_GET["format"] ? $_GET["format"] : $this->sendBadRequestResponse(ErrorConstants::UNDEFINED_FORMAT_TYPE_MESSAGE);
+                if (!is_numeric($altitude)) {
+                    $this->sendBadRequestResponse("Altitude '$altitude', is invalid.");
+                }
+
+                $airports = (new AirportRepository())->findByAltitude($altitude);
+                $this->sendAirportsResponse($airports, $responseDataType);
+                break;
+            case "POST":
+                $this->sendBadRequestResponse("Unknown request method.");
+                break;
+            case "PUT":
+                $this->sendBadRequestResponse("Unknown request method.");
+                break;
+            case "DELETE":
+                $this->sendBadRequestResponse("Unknown request method.");
+                break;
+            default:
+                $this->sendBadRequestResponse("Unknown request method.");
+                break;
+        }
+    }
+
+    /*
      *  Finds an airport within defined radius of latitude and longitude.
      *
      *  GET /Radius/{distance-km}.{json|xml}?lat={latitude}&long={longitude}
