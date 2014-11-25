@@ -49,7 +49,7 @@ class AirportRepository {
             $airport->setName($record['Name']);
             $airport->setCity($record['City']);
             $airport->setCountry($record['Country']);
-            $airport->setFaaCode($record['IATA_FAA']);
+            $airport->setIataCode($record['IATA_FAA']);
             $airport->setLatitude($record['Latitude']);
             $airport->setLongitude($record['Longitude']);
             $airport->setAltitude($record['Altitude']);

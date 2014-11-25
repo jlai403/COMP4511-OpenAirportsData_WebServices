@@ -7,7 +7,7 @@ class Airport implements JsonSerializable, IWriteXml {
     private $name;
     private $city;
     private $country;
-    private $faaCode;
+    private $iataCode;
     private $latitude;
     private $longitude;
     private $altitude;
@@ -37,12 +37,12 @@ class Airport implements JsonSerializable, IWriteXml {
         $this->country = $country;
     }
 
-    public function getFaaCode() {
-        return $this->faaCode;
+    public function getIataCode() {
+        return $this->iataCode;
     }
 
-    public function setFaaCode($faaCode) {
-        $this->faaCode = $faaCode;
+    public function setIataCode($faaCode) {
+        $this->iataCode = $faaCode;
     }
 
     public function getLatitude() {
@@ -85,7 +85,7 @@ class Airport implements JsonSerializable, IWriteXml {
                 'name' => $this->getName(),
                 'city' => $this->getCity(),
                 'country' => $this->getCountry(),
-                'faa_code' => $this->getFaaCode(),
+                'iata_code' => $this->getIataCode(),
                 'latitude' => $this->getLatitude(),
                 'longitude' => $this->getLongitude(),
                 'altitude' => $this->getAltitude(),
@@ -99,7 +99,7 @@ class Airport implements JsonSerializable, IWriteXml {
         $writer->writeElement('name', $this->getName());
         $writer->writeElement('city', $this->getCity());
         $writer->writeElement('country', $this->getCountry());
-        $writer->writeElement('faa_code', $this->getFaaCode());
+        $writer->writeElement('iata_code', $this->getIataCode());
         $writer->writeElement('latitude', $this->getLatitude());
         $writer->writeElement('longitude', $this->getLongitude());
         $writer->writeElement('altitude', $this->getAltitude());
