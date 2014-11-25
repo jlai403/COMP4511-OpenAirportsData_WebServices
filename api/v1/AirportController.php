@@ -4,7 +4,6 @@ require_once($_SERVER["DOCUMENT_ROOT"]."/api/v1/BaseController.php");
 require_once($_SERVER["DOCUMENT_ROOT"]."/api/v1/Model/Airport.php");
 require_once($_SERVER["DOCUMENT_ROOT"]."/api/v1/Model/AirportRepository.php");
 require_once($_SERVER["DOCUMENT_ROOT"]."/api/v1/Model/HttpResponseObject.php");
-require_once($_SERVER["DOCUMENT_ROOT"]."/DataAccess/PdoWrapper.php");
 require_once($_SERVER["DOCUMENT_ROOT"]."/Constants/ContentTypes.php");
 require_once($_SERVER["DOCUMENT_ROOT"]."/Constants/HttpStatusCodes.php");
 require_once($_SERVER["DOCUMENT_ROOT"]."/Constants/ErrorConstants.php");
@@ -25,7 +24,7 @@ class AirportController extends BaseController{
                 $responseDataType = $_GET["format"] ? $_GET["format"] : $this->sendBadRequestResponse(ErrorConstants::UNDEFINED_FORMAT_TYPE_MESSAGE);
 
                 $airports = (new AirportRepository())->findByCountry($country);
-                $this->sendAirportsResponse($airports, $responseDataType);
+                $this->sendSuccessAirportsResponse($airports, $responseDataType);
                 break;
             case "POST":
                 $this->sendBadRequestResponse("Unknown request method.");
@@ -56,7 +55,7 @@ class AirportController extends BaseController{
                 $responseDataType = $_GET["format"] ? $_GET["format"] : $this->sendBadRequestResponse(ErrorConstants::UNDEFINED_FORMAT_TYPE_MESSAGE);
 
                 $airports = (new AirportRepository())->findByCity($city);
-                $this->sendAirportsResponse($airports, $responseDataType);
+                $this->sendSuccessAirportsResponse($airports, $responseDataType);
                 break;
             case "POST":
                 $this->sendBadRequestResponse("Unknown request method.");
@@ -87,7 +86,7 @@ class AirportController extends BaseController{
                 $responseDataType = $_GET["format"] ? $_GET["format"] : $this->sendBadRequestResponse(ErrorConstants::UNDEFINED_FORMAT_TYPE_MESSAGE);
 
                 $airports = (new AirportRepository())->findByIATA($iata);
-                $this->sendAirportsResponse($airports, $responseDataType);
+                $this->sendSuccessAirportsResponse($airports, $responseDataType);
                 break;
             case "POST":
                 $this->sendBadRequestResponse("Unknown request method.");
@@ -118,7 +117,7 @@ class AirportController extends BaseController{
                 $responseDataType = $_GET["format"] ? $_GET["format"] : $this->sendBadRequestResponse(ErrorConstants::UNDEFINED_FORMAT_TYPE_MESSAGE);
 
                 $airports = (new AirportRepository())->findByName($name);
-                $this->sendAirportsResponse($airports, $responseDataType);
+                $this->sendSuccessAirportsResponse($airports, $responseDataType);
                 break;
             case "POST":
                 $this->sendBadRequestResponse("Unknown request method.");
@@ -152,7 +151,7 @@ class AirportController extends BaseController{
                 }
 
                 $airports = (new AirportRepository())->findByAltitude($altitude);
-                $this->sendAirportsResponse($airports, $responseDataType);
+                $this->sendSuccessAirportsResponse($airports, $responseDataType);
                 break;
             case "POST":
                 $this->sendBadRequestResponse("Unknown request method.");
@@ -187,7 +186,7 @@ class AirportController extends BaseController{
                 $responseDataType = isset($_GET["format"]) ? $_GET["format"] : $this->sendBadRequestResponse(ErrorConstants::UNDEFINED_FORMAT_TYPE_MESSAGE);
 
                 $airports = (new AirportRepository())->findByRadius($distance, $lat, $long);
-                $this->sendAirportsResponse($airports, $responseDataType);
+                $this->sendSuccessAirportsResponse($airports, $responseDataType);
                 break;
             case "POST":
                 $this->sendBadRequestResponse("Unknown request method.");
@@ -209,7 +208,7 @@ class AirportController extends BaseController{
         $this->sendHttpResponse($error->getStatusCode(), ContentTypes::JSON, json_encode($error));
     }
 
-    private function sendAirportsResponse($airports, $responseDataType){
+    private function sendSuccessAirportsResponse($airports, $responseDataType){
         switch($responseDataType){
             case "json":
                 $this->sendHttpResponse(HttpStatusCodes::OK, ContentTypes::JSON, json_encode($airports, JSON_PRETTY_PRINT));
