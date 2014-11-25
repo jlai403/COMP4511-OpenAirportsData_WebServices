@@ -23,6 +23,13 @@ class AirportRepository {
 
     }
 
+    public function findByName($name){
+        $query = "SELECT * FROM assignment4.airports WHERE Name like '%$name%';";
+        $resultSet = (new PdoWrapper())->executeQueryWithResultSet($query);
+        return $this->assembleAirportsFromResultSet($resultSet);
+
+    }
+
     public function findByRadius($distance, $lat, $long){
         $radius = 6371; // earths radius in km
 

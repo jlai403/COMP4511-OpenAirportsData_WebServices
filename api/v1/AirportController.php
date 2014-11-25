@@ -105,6 +105,37 @@ class AirportController extends BaseController{
     }
 
     /*
+    *  Finds an airport by Name.
+    *
+    *  GET /Name/{airport-name}.{json|xml}
+    *  {airport-name}: Required
+    */
+    public function Name()
+    {
+        switch ($_SERVER["REQUEST_METHOD"]) {
+            case "GET":
+                $name = $_GET["paramOne"] ? $_GET["paramOne"] : $this->sendBadRequestResponse("Undefined name for airport.");
+                $responseDataType = $_GET["format"] ? $_GET["format"] : $this->sendBadRequestResponse(ErrorConstants::UNDEFINED_FORMAT_TYPE_MESSAGE);
+
+                $airports = (new AirportRepository())->findByName($name);
+                $this->sendAirportsResponse($airports, $responseDataType);
+                break;
+            case "POST":
+                $this->sendBadRequestResponse("Unknown request method.");
+                break;
+            case "PUT":
+                $this->sendBadRequestResponse("Unknown request method.");
+                break;
+            case "DELETE":
+                $this->sendBadRequestResponse("Unknown request method.");
+                break;
+            default:
+                $this->sendBadRequestResponse("Unknown request method.");
+                break;
+        }
+    }
+
+    /*
      *  Finds an airport within defined radius of latitude and longitude.
      *
      *  GET /Radius/{distance-km}.{json|xml}?lat={latitude}&long={longitude}
