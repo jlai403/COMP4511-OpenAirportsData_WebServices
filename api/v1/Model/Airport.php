@@ -1,6 +1,8 @@
 <?php
 
-class Airport implements JsonSerializable {
+require_once($_SERVER["DOCUMENT_ROOT"]."/XML/IWriteXml.php");
+
+class Airport implements JsonSerializable, IWriteXml {
 
     private $name;
     private $city;
@@ -76,7 +78,7 @@ class Airport implements JsonSerializable {
     }
 
 
-    function jsonSerialize()
+    public function jsonSerialize()
     {
         return [
             'airport' => [
@@ -90,5 +92,18 @@ class Airport implements JsonSerializable {
                 'timezone' => $this->getTimeZone(),
             ]
         ];
+    }
+
+    public function assembleXmlElement(&$writer) {
+        $writer->startElement('airport');
+        $writer->writeElement('name', $this->getName());
+        $writer->writeElement('city', $this->getCity());
+        $writer->writeElement('country', $this->getCountry());
+        $writer->writeElement('faa_code', $this->getFaaCode());
+        $writer->writeElement('latitude', $this->getLatitude());
+        $writer->writeElement('longitude', $this->getLongitude());
+        $writer->writeElement('altitude', $this->getAltitude());
+        $writer->writeElement('timezone', $this->getTimeZone());
+        $writer->endElement();
     }
 } 

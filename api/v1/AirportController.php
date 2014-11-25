@@ -6,6 +6,7 @@ require_once($_SERVER["DOCUMENT_ROOT"]."/api/v1/Model/AirportRepository.php");
 require_once($_SERVER["DOCUMENT_ROOT"]."/DataAccess/PdoWrapper.php");
 require_once($_SERVER["DOCUMENT_ROOT"]."/Constants/ContentTypes.php");
 require_once($_SERVER["DOCUMENT_ROOT"]."/Constants/HttpStatusCodes.php");
+require_once($_SERVER["DOCUMENT_ROOT"]."/XML/XmlWriterWrapper.php");
 
 class AirportController extends BaseController{
 
@@ -27,7 +28,18 @@ class AirportController extends BaseController{
 
                 $airports = (new AirportRepository())->findByCountry($country);
 
-                $this->sendHttpResponse(HttpStatusCodes::OK, ContentTypes::JSON, json_encode($airports, JSON_PRETTY_PRINT));
+                switch($responseDataType){
+                    case "json":
+                        $this->sendHttpResponse(HttpStatusCodes::OK, ContentTypes::JSON, json_encode($airports, JSON_PRETTY_PRINT));
+                        break;
+                    case "xml":
+                        $xml = (new XmlWriterWrapper())->GenerateXmlFromList("airports", $airports);
+                        $this->sendHttpResponse(HttpStatusCodes::OK, ContentTypes::XML, $xml);
+                        break;
+                    default:
+                        $error = new HttpResponseObject(HttpStatusCodes::BAD_REQUEST, "Request data type '$responseDataType' unknown'.");
+                        $this->sendHttpResponse($error->getStatusCode(), ContentTypes::JSON, json_encode($error));
+                }
                 break;
             case "POST":
                 $error = new HttpResponseObject(HttpStatusCodes::BAD_REQUEST, "Unknown request method.");
@@ -67,7 +79,18 @@ class AirportController extends BaseController{
 
                 $airports = (new AirportRepository())->findByCity($city);
 
-                $this->sendHttpResponse(HttpStatusCodes::OK, ContentTypes::JSON, json_encode($airports, JSON_PRETTY_PRINT));
+                switch($responseDataType){
+                    case "json":
+                        $this->sendHttpResponse(HttpStatusCodes::OK, ContentTypes::JSON, json_encode($airports, JSON_PRETTY_PRINT));
+                        break;
+                    case "xml":
+                        $xml = (new XmlWriterWrapper())->GenerateXmlFromList("airports", $airports);
+                        $this->sendHttpResponse(HttpStatusCodes::OK, ContentTypes::XML, $xml);
+                        break;
+                    default:
+                        $error = new HttpResponseObject(HttpStatusCodes::BAD_REQUEST, "Request data type '$responseDataType' unknown'.");
+                        $this->sendHttpResponse($error->getStatusCode(), ContentTypes::JSON, json_encode($error));
+                }
                 break;
             case "POST":
                 $error = new HttpResponseObject(HttpStatusCodes::BAD_REQUEST, "Unknown request method.");
