@@ -25,18 +25,7 @@ class AirportController extends BaseController{
                 $responseDataType = $_GET["format"] ? $_GET["format"] : $this->sendBadRequestResponse(ErrorConstants::UNDEFINED_FORMAT_TYPE_MESSAGE);
 
                 $airports = (new AirportRepository())->findByCountry($country);
-
-                switch($responseDataType){
-                    case "json":
-                        $this->sendHttpResponse(HttpStatusCodes::OK, ContentTypes::JSON, json_encode($airports, JSON_PRETTY_PRINT));
-                        break;
-                    case "xml":
-                        $xml = (new XmlWriterWrapper())->GenerateXmlFromList("airports", $airports);
-                        $this->sendHttpResponse(HttpStatusCodes::OK, ContentTypes::XML, $xml);
-                        break;
-                    default:
-                        $this->sendBadRequestResponse("Format type unknown.");
-                }
+                $this->sendAirportsResponse($airports, $responseDataType);
                 break;
             case "POST":
                 $this->sendBadRequestResponse("Unknown request method.");
@@ -67,18 +56,7 @@ class AirportController extends BaseController{
                 $responseDataType = $_GET["format"] ? $_GET["format"] : $this->sendBadRequestResponse(ErrorConstants::UNDEFINED_FORMAT_TYPE_MESSAGE);
 
                 $airports = (new AirportRepository())->findByCity($city);
-
-                switch($responseDataType){
-                    case "json":
-                        $this->sendHttpResponse(HttpStatusCodes::OK, ContentTypes::JSON, json_encode($airports, JSON_PRETTY_PRINT));
-                        break;
-                    case "xml":
-                        $xml = (new XmlWriterWrapper())->GenerateXmlFromList("airports", $airports);
-                        $this->sendHttpResponse(HttpStatusCodes::OK, ContentTypes::XML, $xml);
-                        break;
-                    default:
-                        $this->sendBadRequestResponse("Format type unknown.");
-                }
+                $this->sendAirportsResponse($airports, $responseDataType);
                 break;
             case "POST":
                 $this->sendBadRequestResponse("Unknown request method.");
@@ -113,18 +91,7 @@ class AirportController extends BaseController{
                 $responseDataType = isset($_GET["format"]) ? $_GET["format"] : $this->sendBadRequestResponse(ErrorConstants::UNDEFINED_FORMAT_TYPE_MESSAGE);
 
                 $airports = (new AirportRepository())->findByRadius($distance, $lat, $long);
-
-                switch($responseDataType){
-                    case "json":
-                        $this->sendHttpResponse(HttpStatusCodes::OK, ContentTypes::JSON, json_encode($airports, JSON_PRETTY_PRINT));
-                        break;
-                    case "xml":
-                        $xml = (new XmlWriterWrapper())->GenerateXmlFromList("airports", $airports);
-                        $this->sendHttpResponse(HttpStatusCodes::OK, ContentTypes::XML, $xml);
-                        break;
-                    default:
-                        $this->sendBadRequestResponse("Format type unknown.");
-                }
+                $this->sendAirportsResponse($airports, $responseDataType);
                 break;
             case "POST":
                 $this->sendBadRequestResponse("Unknown request method.");
@@ -144,6 +111,20 @@ class AirportController extends BaseController{
     private function sendBadRequestResponse($errorMessage){
         $error = new HttpResponseObject(HttpStatusCodes::BAD_REQUEST, $errorMessage);
         $this->sendHttpResponse($error->getStatusCode(), ContentTypes::JSON, json_encode($error));
+    }
+
+    private function sendAirportsResponse($airports, $responseDataType){
+        switch($responseDataType){
+            case "json":
+                $this->sendHttpResponse(HttpStatusCodes::OK, ContentTypes::JSON, json_encode($airports, JSON_PRETTY_PRINT));
+                break;
+            case "xml":
+                $xml = (new XmlWriterWrapper())->GenerateXmlFromList("airports", $airports);
+                $this->sendHttpResponse(HttpStatusCodes::OK, ContentTypes::XML, $xml);
+                break;
+            default:
+                $this->sendBadRequestResponse("Format type unknown.");
+        }
     }
 }
 
