@@ -16,6 +16,25 @@ class AirportRepository {
 
     }
 
+    public function findByRadius($distance, $lat, $long){
+        $radius = 6371; // earths radius in km
+
+        $minLat = $lat - rad2deg($distance / $radius);
+        $maxLat = $lat + rad2deg($distance / $radius);
+        $minLong = $long - rad2deg($distance / $radius / cos(deg2rad($lat)));
+        $maxLong = $long + rad2deg($distance / $radius / cos(deg2rad($lat)));
+
+        $query = "
+            SELECT *
+            FROM assignment4.airports
+            WHERE (Latitude BETWEEN $minLat AND $maxLat)
+            AND (Longitude BETWEEN $minLong AND $maxLong)
+        ;";
+
+        $resultSet = (new PdoWrapper())->executeQueryWithResultSet($query);
+        return $this->assembleAirportsFromResultSet($resultSet);
+    }
+
     private function assembleAirportsFromResultSet($resultSet) {
         $airports = array();
         foreach($resultSet as $record) {

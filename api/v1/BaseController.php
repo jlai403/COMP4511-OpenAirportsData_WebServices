@@ -5,6 +5,11 @@ require_once($_SERVER["DOCUMENT_ROOT"]."/Constants/HttpStatusCodes.php");
 
 abstract class BaseController {
     public function invokeAction($action) {
+        if(!method_exists($this, $action)) {
+            $error = new HttpResponseObject(HttpStatusCodes::NOT_FOUND, "'$action' Not Found.");
+            $this->sendHttpResponse($error->getStatusCode(), ContentTypes::JSON, json_encode($error));
+        }
+
         call_user_func(array($this, $action));
     }
 
