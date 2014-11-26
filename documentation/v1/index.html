@@ -95,7 +95,7 @@
             <h1>REST APIs</h1>
             <p>
                 The REST APIs provides programmatic access to read public airports data.
-                All our were publicly retrieved from <a href="http://openflights.org/data.html">OpenFlights</a>
+                All our data was publicly retrieved from <a href="http://openflights.org/data.html">OpenFlights</a>
                 No Oauth is required to use our REST APIs.
             </p>
 
@@ -174,7 +174,7 @@
 
                 <h4>Endpoint</h4>
                 <div class="well" style="margin: 10px 0">
-                    http://comp4511.jlai.ca/api/v1/Airport/Country/{country-name}.{datatype}
+                    http://comp4511.jlai.ca/api/v1/airport/country/{country-name}.{datatype}
                 </div>
 
                 <h4>Request Parameters</h4>
@@ -301,7 +301,7 @@
 
                 <h4>Endpoint</h4>
                 <div class="well" style="margin: 10px 0">
-                    http://comp4511.jlai.ca/api/v1/Airport/City/{city-name}.{datatype}
+                    http://comp4511.jlai.ca/api/v1/airport/city/{city-name}.{datatype}
                 </div>
 
                 <h4>Request Parameters</h4>
@@ -363,7 +363,7 @@
 
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <span class="request-method">GET</span> /api/v1/airport/country/canada.xml
+                        <span class="request-method">GET</span> /api/v1/airport/city/calgary.xml
                     </div>
                     <div class="panel-body">
                         <pre>
@@ -424,6 +424,90 @@
                     </tr>
                     </tbody>
                 </table>
+
+                <h4>Endpoint</h4>
+                <div class="well" style="margin: 10px 0">
+                    http://comp4511.jlai.ca/api/v1/aiport/iata/{3-letter-code}.{datatype}
+                </div>
+
+                <h4>Request Parameters</h4>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <td>Query argument</td>
+                        <td>Value</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>3-letter-code</td>
+                        <td><i>required</i>. Returns all airports with this IATA/FAA code.</td>
+                    </tr>
+                    <tr>
+                        <td>datatype</td>
+                        <td>
+                            <i>required</i>. The return format of the requested data. <br/>
+                            <b>json</b> - returns the dataset in xml format. <br/>
+                            <b>xml</b> - returns the dataset in json format. <br/>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <h4>Response Format</h4>
+                <p>
+                    On success, the HTTP status code in the response header is 200 OK and the response body contains
+                    an array of airport objects, in the requested xml or json format.
+                    On error, the header status code is an error code and the response body contains an error object.
+                </p>
+
+                <h4>Examples</h4>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="request-method">GET</span> /api/v1/airport/iata/yyc.json
+                    </div>
+                    <div class="panel-body">
+                        <pre>
+<code class="data-type-example">
+{
+    "airport": {
+    "name": "Calgary Intl",
+    "city": "Calgary",
+    "country": "Canada",
+    "iata_code": "YYC",
+    "latitude": "51.113888",
+    "longitude": "-114.020278",
+    "altitude": "3557",
+    "timezone": "America\/Edmonton"
+    }
+}
+</code>
+                        </pre>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="request-method">GET</span> /api/v1/airport/iata/yyc.xml
+                    </div>
+                    <div class="panel-body">
+                        <pre>
+<code class="data-type-example"><xmp>
+<airport>
+    <name>Calgary Intl</name>
+    <city>Calgary</city>
+    <country>Canada</country>
+    <iata_code>YYC</iata_code>
+    <latitude>51.113888</latitude>
+    <longitude>-114.020278</longitude>
+    <altitude>3557</altitude>
+    <timezone>America/Edmonton</timezone>
+</airport></xmp></code>
+                        </pre>
+                    </div>
+                </div>
+
             </div>
 
             <hr/>
@@ -467,12 +551,96 @@
                     </tr>
                     </tbody>
                 </table>
+
+                <h4>Endpoint</h4>
+                <div class="well" style="margin: 10px 0">
+                    http://comp4511.jlai.ca/api/v1/airport/altitude/{altitude}.{datatype}
+                </div>
+
+                <h4>Request Parameters</h4>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <td>Query argument</td>
+                        <td>Value</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>altitude</td>
+                        <td><i>required</i>. Returns all airports on this altitude.</td>
+                    </tr>
+                    <tr>
+                        <td>datatype</td>
+                        <td>
+                            <i>required</i>. The return format of the requested data. <br/>
+                            <b>json</b> - returns the dataset in xml format. <br/>
+                            <b>xml</b> - returns the dataset in json format. <br/>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <h4>Response Format</h4>
+                <p>
+                    On success, the HTTP status code in the response header is 200 OK and the response body contains
+                    an array of airport objects, in the requested xml or json format.
+                    On error, the header status code is an error code and the response body contains an error object.
+                </p>
+
+                <h4>Examples</h4>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="request-method">GET</span> /api/v1/airport/altitude/3557.json
+                    </div>
+                    <div class="panel-body">
+                        <pre>
+<code class="data-type-example">
+{
+    "airport": {
+    "name": "Calgary Intl",
+    "city": "Calgary",
+    "country": "Canada",
+    "iata_code": "YYC",
+    "latitude": "51.113888",
+    "longitude": "-114.020278",
+    "altitude": "3557",
+    "timezone": "America\/Edmonton"
+    }
+}
+</code>
+                        </pre>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="request-method">GET</span> /api/v1/airport/altitude/3557.xml
+                    </div>
+                    <div class="panel-body">
+                        <pre>
+<code class="data-type-example"><xmp>
+<airport>
+    <name>Calgary Intl</name>
+    <city>Calgary</city>
+    <country>Canada</country>
+    <iata_code>YYC</iata_code>
+    <latitude>51.113888</latitude>
+    <longitude>-114.020278</longitude>
+    <altitude>3557</altitude>
+    <timezone>America/Edmonton</timezone>
+</airport></xmp></code>
+                        </pre>
+                    </div>
+                </div>
+
             </div>
 
             <hr/>
 
             <div id="radius">
-                <h3>Altitude Endpoints</h3>
+                <h3>Radius Endpoints</h3>
 
                 <table class="table endpoint-requests" style="margin-top:20px;">
                     <thead>
@@ -510,9 +678,103 @@
                     </tr>
                     </tbody>
                 </table>
+
+                <h4>Endpoint</h4>
+                <div class="well" style="margin: 10px 0">
+                    http://comp4511.jlai.ca/api/v1/Airport/radius/{distance-km}.{datatype}?lat={latitude}&long={longitude}
+                </div>
+
+                <h4>Request Parameters</h4>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <td>Query argument</td>
+                        <td>Value</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>distance-km</td>
+                        <td><i>required</i>. Returns all airports within radius in km.</td>
+                    </tr>
+                    <tr>
+                        <td>datatype</td>
+                        <td>
+                            <i>required</i>. The return format of the requested data. <br/>
+                            <b>json</b> - returns the dataset in xml format. <br/>
+                            <b>xml</b> - returns the dataset in json format. <br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>lat</td>
+                        <td>
+                            <i>required</i>. Latitude of current location.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>long</td>
+                        <td>
+                            <i>required</i>. Longitude of current location.
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <h4>Response Format</h4>
+                <p>
+                    On success, the HTTP status code in the response header is 200 OK and the response body contains
+                    an array of airport objects, in the requested xml or json format.
+                    On error, the header status code is an error code and the response body contains an error object.
+                </p>
+
+                <h4>Examples</h4>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="request-method">GET</span> /api/v1/airport/radius/50.json?lat=51&long=-114
+                    </div>
+                    <div class="panel-body">
+                        <pre>
+<code class="data-type-example">
+{
+    "airport": {
+    "name": "Calgary Intl",
+    "city": "Calgary",
+    "country": "Canada",
+    "iata_code": "YYC",
+    "latitude": "51.113888",
+    "longitude": "-114.020278",
+    "altitude": "3557",
+    "timezone": "America\/Edmonton"
+    }
+}
+</code>
+                        </pre>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="request-method">GET</span> /api/v1/airport/radius/50.xml?lat=51&long=-114
+                    </div>
+                    <div class="panel-body">
+                        <pre>
+<code class="data-type-example"><xmp>
+<airport>
+    <name>Calgary Intl</name>
+    <city>Calgary</city>
+    <country>Canada</country>
+    <iata_code>YYC</iata_code>
+    <latitude>51.113888</latitude>
+    <longitude>-114.020278</longitude>
+    <altitude>3557</altitude>
+    <timezone>America/Edmonton</timezone>
+</airport></xmp></code>
+                        </pre>
+                    </div>
+                </div>
+
             </div>
-
-
         </div>
     </div>
 </body>
