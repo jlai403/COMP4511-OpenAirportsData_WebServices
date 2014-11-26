@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Public Airport REST APIs</title>
+
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+</head>
+
+<style>
+    .panel ul {
+        padding-left: 0;
+    }
+
+    .panel ul li {
+        margin-top: -1px;
+        list-style: none;
+        border: 1px solid #efefef;
+        background-color: #fefefe;
+    }
+
+    .panel ul li a {
+        display: block;
+        text-decoration: none;
+        font-weight: 500;
+        padding: 10px;
+    }
+
+    .panel ul li a:hover {
+        background-color: #fafafa;
+    }
+
+    .table {
+        border: 1px solid #bce8f1;
+    }
+
+    .table thead tr{
+        background-color: #D9EDF7;
+        font-weight: bold;
+    }
+
+    .request-method {
+        font-weight: bold;
+    }
+
+    hr {
+        margin: 50px 0;
+    }
+
+    h4 {
+        margin: 25px 0;
+    }
+
+    .data-type-example {
+        padding: 2px 4px;
+        font-size: 90%;
+        color: #c7254e;
+        background-color: #f9f2f4;
+        border-radius: 4px;
+    }
+</style>
+
+<body>
+
+    <div class="grid" style="height: 100vh">
+        <div class="col-sm-3" style="padding-top: 20px;">
+            <div class="panel panel-info" style="height: 100vh;">
+                <div class="panel-heading">
+                    <h4>REST API Navigation</h4>
+                </div>
+                <div class="panel-body">
+                    <h4>Overview</h4>
+                    <ul>
+                        <li>
+                            <a href="#country">Country</a>
+                        </li>
+                        <li>
+                            <a href="#city">City</a>
+                        </li>
+                        <li>
+                            <a href="#iata">IATA/FAA (3 Letter Code)</a>
+                        </li>
+                        <li>
+                            <a href="#altitude">Altitude</a>
+                        </li>
+                        <li>
+                            <a href="#radius">Radius</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-9" style="padding: 0 100px 0 25px; height: 100vh; overflow: auto;">
+            <h1>REST APIs</h1>
+            <p>
+                The REST APIs provides programmatic access to read public airports data.
+                All our were publicly retrieved from <a href="http://openflights.org/data.html">OpenFlights</a>
+                No Oauth is required to use our REST APIs.
+            </p>
+
+            <h2>Usage Rules</h2>
+            All our APIs are <b>free</b> and will <b>always</b> be free.
+
+            <h2>API End Points Overview</h2>
+            All endpoints are only accessible via http and are located at <b>comp4511.jlai.ca</b>.
+            For instance: you can find all airports by country by accessing the following URL:
+
+            <div class="well" style="margin: 10px 0">
+                http://comp4511.jlai.ca/api/v1/Airport/Country/{country-name}.json
+            </div>
+
+
+            Below is an overview of the REST APIs we provide to find Airport data. <br/>
+            <ul>
+                <li>
+                    <a href="#country">Country</a>
+                </li>
+                <li>
+                    <a href="#city">City</a>
+                </li>
+                <li>
+                    <a href="#iata">IATA/FAA (3 Letter Code)</a>
+                </li>
+                <li>
+                    <a href="#altitude">Altitude</a>
+                </li>
+                <li>
+                    <a href="#radius">Radius</a>
+                </li>
+            </ul>
+
+            <hr/>
+
+            <div id="country">
+                <h3>Country Endpoints</h3>
+
+                <table class="table endpoint-requests" style="margin-top:20px;">
+                    <thead>
+                        <tr>
+                            <td>Method</td>
+                            <td>Endpoint</td>
+                            <td>Usage</td>
+                            <td>Returns</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="request-method">GET</td>
+                            <td>/api/v1/airport/country/{country}.{datatype}</td>
+                            <td>Find airports for a country</td>
+                            <td>airports*</td>
+                        </tr>
+                        <tr>
+                            <td class="request-method">POST</td>
+                            <td>N/A</td>
+                            <td>N/A</td>
+                            <td>N/A</td>
+                        </tr>
+                        <tr>
+                            <td class="request-method">PUT</td>
+                            <td>N/A</td>
+                            <td>N/A</td>
+                            <td>N/A</td>
+                        </tr>
+                        <tr>
+                            <td class="request-method">DELETE</td>
+                            <td>N/A</td>
+                            <td>N/A</td>
+                            <td>N/A</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>Endpoint</h4>
+                <div class="well" style="margin: 10px 0">
+                    http://comp4511.jlai.ca/api/v1/Airport/Country/{country-name}.{datatype}
+                </div>
+
+                <h4>Request Parameters</h4>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <td>Query argument</td>
+                            <td>Value</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>country-name</td>
+                            <td><i>required</i>. Returns all airports for this country.</td>
+                        </tr>
+                        <tr>
+                            <td>datatype</td>
+                            <td>
+                                <i>required</i>. The return format of the requested data. <br/>
+                                <b>json</b> - returns the dataset in xml format. <br/>
+                                <b>xml</b> - returns the dataset in json format. <br/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>Response Format</h4>
+                <p>
+                    On success, the HTTP status code in the response header is 200 OK and the response body contains
+                    an array of airport objects, in the requested xml or json format.
+                    On error, the header status code is an error code and the response body contains an error object.
+                </p>
+
+                <h4>Examples</h4>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="request-method">GET</span> /api/v1/airport/country/canada.json
+                    </div>
+                    <div class="panel-body">
+                        <pre>
+<code class="data-type-example">
+{
+    "airport": {
+    "name": "Calgary Intl",
+    "city": "Calgary",
+    "country": "Canada",
+    "faa_code": "YYC",
+    "latitude": "51.113888",
+    "longitude": "-114.020278",
+    "altitude": "3557",
+    "timezone": "America\/Edmonton"
+    }
+}
+</code>
+                        </pre>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="request-method">GET</span> /api/v1/airport/country/canada.xml
+                    </div>
+                    <div class="panel-body">
+                        <pre>
+
+<code class="data-type-example"><xmp>
+<airport>
+    <name>Calgary Intl</name>
+    <city>Calgary</city>
+    <country>Canada</country>
+    <iata_code>YYC</iata_code>
+    <latitude>51.113888</latitude>
+    <longitude>-114.020278</longitude>
+    <altitude>3557</altitude>
+    <timezone>America/Edmonton</timezone>
+</airport></xmp></code>
+                        </pre>
+                    </div>
+                </div>
+            </div>
+
+            <hr/>
+
+            <div id="city">
+                <h3>City Endpoints</h3>
+
+                <table class="table endpoint-requests" style="margin-top:20px;">
+                    <thead>
+                    <tr>
+                        <td>Method</td>
+                        <td>Endpoint</td>
+                        <td>Usage</td>
+                        <td>Returns</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="request-method">GET</td>
+                        <td>/api/v1/airport/city/{city}.{datatype}</td>
+                        <td>Find airports for a city</td>
+                        <td>airports*</td>
+                    </tr>
+                    <tr>
+                        <td class="request-method">POST</td>
+                        <td>N/A</td>
+                        <td>N/A</td>
+                        <td>N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="request-method">PUT</td>
+                        <td>N/A</td>
+                        <td>N/A</td>
+                        <td>N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="request-method">DELETE</td>
+                        <td>N/A</td>
+                        <td>N/A</td>
+                        <td>N/A</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <h4>Endpoint</h4>
+                <div class="well" style="margin: 10px 0">
+                    http://comp4511.jlai.ca/api/v1/Airport/City/{city-name}.{datatype}
+                </div>
+
+                <h4>Request Parameters</h4>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <td>Query argument</td>
+                        <td>Value</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>city-name</td>
+                        <td><i>required</i>. Returns all airports for this city.</td>
+                    </tr>
+                    <tr>
+                        <td>datatype</td>
+                        <td>
+                            <i>required</i>. The return format of the requested data. <br/>
+                            <b>json</b> - returns the dataset in xml format. <br/>
+                            <b>xml</b> - returns the dataset in json format. <br/>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <h4>Response Format</h4>
+                <p>
+                    On success, the HTTP status code in the response header is 200 OK and the response body contains
+                    an array of airport objects, in the requested xml or json format.
+                    On error, the header status code is an error code and the response body contains an error object.
+                </p>
+
+                <h4>Examples</h4>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="request-method">GET</span> /api/v1/airport/city/calgary.json
+                    </div>
+                    <div class="panel-body">
+                        <pre>
+<code class="data-type-example">
+{
+    "airport": {
+        "name": "Calgary Intl",
+        "city": "Calgary",
+        "country": "Canada",
+        "iata_code": "YYC",
+        "latitude": "51.113888",
+        "longitude": "-114.020278",
+        "altitude": "3557",
+        "timezone": "America\/Edmonton"
+    }
+}
+</code>
+                        </pre>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="request-method">GET</span> /api/v1/airport/country/canada.xml
+                    </div>
+                    <div class="panel-body">
+                        <pre>
+<code class="data-type-example"><xmp>
+<airport>
+    <name>Calgary Intl</name>
+    <city>Calgary</city>
+    <country>Canada</country>
+    <iata_code>YYC</iata_code>
+    <latitude>51.113888</latitude>
+    <longitude>-114.020278</longitude>
+    <altitude>3557</altitude>
+    <timezone>America/Edmonton</timezone>
+</airport></xmp></code>
+                        </pre>
+                    </div>
+                </div>
+            </div>
+
+            <hr/>
+
+            <div id="iata">
+                <h3>IATA/FAA Endpoints</h3>
+
+                <table class="table endpoint-requests" style="margin-top:20px;">
+                    <thead>
+                    <tr>
+                        <td>Method</td>
+                        <td>Endpoint</td>
+                        <td>Usage</td>
+                        <td>Returns</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="request-method">GET</td>
+                        <td>/api/v1/airport/iata/{3-letter-code}.{datatype}</td>
+                        <td>Find airports by IATA/FAA.</td>
+                        <td>airports*</td>
+                    </tr>
+                    <tr>
+                        <td class="request-method">POST</td>
+                        <td>N/A</td>
+                        <td>N/A</td>
+                        <td>N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="request-method">PUT</td>
+                        <td>N/A</td>
+                        <td>N/A</td>
+                        <td>N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="request-method">DELETE</td>
+                        <td>N/A</td>
+                        <td>N/A</td>
+                        <td>N/A</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <hr/>
+
+            <div id="altitude">
+                <h3>Altitude Endpoints</h3>
+
+                <table class="table endpoint-requests" style="margin-top:20px;">
+                    <thead>
+                    <tr>
+                        <td>Method</td>
+                        <td>Endpoint</td>
+                        <td>Usage</td>
+                        <td>Returns</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="request-method">GET</td>
+                        <td>/api/v1/airport/altitude/{altitude}.{datatype}</td>
+                        <td>Find airports by altitude.</td>
+                        <td>airports*</td>
+                    </tr>
+                    <tr>
+                        <td class="request-method">POST</td>
+                        <td>N/A</td>
+                        <td>N/A</td>
+                        <td>N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="request-method">PUT</td>
+                        <td>N/A</td>
+                        <td>N/A</td>
+                        <td>N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="request-method">DELETE</td>
+                        <td>N/A</td>
+                        <td>N/A</td>
+                        <td>N/A</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <hr/>
+
+            <div id="radius">
+                <h3>Altitude Endpoints</h3>
+
+                <table class="table endpoint-requests" style="margin-top:20px;">
+                    <thead>
+                    <tr>
+                        <td>Method</td>
+                        <td>Endpoint</td>
+                        <td>Usage</td>
+                        <td>Returns</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="request-method">GET</td>
+                        <td>/api/v1/airport/radius/{distance-km}.{datatype}?lat={latitude}&long={longitude}</td>
+                        <td>Find airports by location and radius.</td>
+                        <td>airports*</td>
+                    </tr>
+                    <tr>
+                        <td class="request-method">POST</td>
+                        <td>N/A</td>
+                        <td>N/A</td>
+                        <td>N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="request-method">PUT</td>
+                        <td>N/A</td>
+                        <td>N/A</td>
+                        <td>N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="request-method">DELETE</td>
+                        <td>N/A</td>
+                        <td>N/A</td>
+                        <td>N/A</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+        </div>
+    </div>
+</body>
+</html>
