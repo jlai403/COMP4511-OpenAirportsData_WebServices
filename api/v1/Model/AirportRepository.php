@@ -3,42 +3,54 @@ require_once($_SERVER["DOCUMENT_ROOT"]."/DataAccess/PdoWrapper.php");
 
 class AirportRepository {
 
-    public function findByCountry($country){
-        $query = "SELECT * FROM assignment4.airports WHERE Country LIKE '%$country%';";
+    public function findByCountry($country, $limit){
+        $limitQuery = $limit === "" ? "" : " limit $limit";
+
+        $query = "SELECT * FROM assignment4.airports WHERE Country LIKE '%$country%' $limitQuery;";
         $resultSet = (new PdoWrapper())->executeQueryWithResultSet($query);
         return $this->assembleAirportsFromResultSet($resultSet);
 
     }
 
-    public function findByCity($city){
-        $query = "SELECT * FROM assignment4.airports WHERE City LIKE '%$city%';";
+    public function findByCity($city, $limit){
+        $limitQuery = $limit === "" ? "" : " limit $limit";
+
+        $query = "SELECT * FROM assignment4.airports WHERE City LIKE '%$city%' $limitQuery;";
         $resultSet = (new PdoWrapper())->executeQueryWithResultSet($query);
         return $this->assembleAirportsFromResultSet($resultSet);
 
     }
 
-    public function findByIATA($iata){
-        $query = "SELECT * FROM assignment4.airports WHERE IATA_FAA = '$iata';";
+    public function findByIATA($iata, $limit){
+        $limitQuery = $limit === "" ? "" : " limit $limit";
+
+        $query = "SELECT * FROM assignment4.airports WHERE IATA_FAA = '$iata' $limitQuery;";
         $resultSet = (new PdoWrapper())->executeQueryWithResultSet($query);
         return $this->assembleAirportsFromResultSet($resultSet);
 
     }
 
-    public function findByName($name){
-        $query = "SELECT * FROM assignment4.airports WHERE Name like '%$name%';";
+    public function findByName($name, $limit){
+        $limitQuery = $limit === "" ? "" : " limit $limit";
+
+        $query = "SELECT * FROM assignment4.airports WHERE Name like '%$name%' $limitQuery;";
         $resultSet = (new PdoWrapper())->executeQueryWithResultSet($query);
         return $this->assembleAirportsFromResultSet($resultSet);
 
     }
 
-    public function findByAltitude($altitude){
-        $query = "SELECT * FROM assignment4.airports WHERE Altitude = '$altitude';";
+    public function findByAltitude($altitude, $limit){
+        $limitQuery = $limit === "" ? "" : " limit $limit";
+
+        $query = "SELECT * FROM assignment4.airports WHERE Altitude = '$altitude' $limitQuery;";
         $resultSet = (new PdoWrapper())->executeQueryWithResultSet($query);
         return $this->assembleAirportsFromResultSet($resultSet);
 
     }
 
-    public function findByRadius($distance, $lat, $long){
+    public function findByRadius($distance, $lat, $long, $limit){
+        $limitQuery = $limit === "" ? "" : " limit $limit";
+
         $radius = 6371; // earths radius in km
 
         $minLat = $lat - rad2deg($distance / $radius);
@@ -51,6 +63,7 @@ class AirportRepository {
             FROM assignment4.airports
             WHERE (Latitude BETWEEN $minLat AND $maxLat)
             AND (Longitude BETWEEN $minLong AND $maxLong)
+            $limitQuery
         ;";
 
         $resultSet = (new PdoWrapper())->executeQueryWithResultSet($query);

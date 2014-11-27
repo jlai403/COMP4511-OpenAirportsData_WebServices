@@ -14,8 +14,9 @@ class AirportController extends BaseController{
     /*
      *  Finds an airport by country name.
      *
-     *  GET /Country/{country-name}.{json|xml}
+     *  GET /Country/{country-name}.{json|xml}?limit={limit}
      *  {country-name}: Required
+     *  {limit}: Optional
      */
     public function Country() {
         switch($_SERVER["REQUEST_METHOD"]){
@@ -23,7 +24,8 @@ class AirportController extends BaseController{
                 $country = $_GET["paramOne"] ? $_GET["paramOne"] : $this->sendBadRequestResponse("Undefined country.");
                 $responseDataType = $_GET["format"] ? $_GET["format"] : $this->sendBadRequestResponse(ErrorConstants::UNDEFINED_FORMAT_TYPE_MESSAGE);
 
-                $airports = (new AirportRepository())->findByCountry($country);
+                $limit = isset($_GET["limit"]) ? $_GET["limit"] :  "";
+                $airports = (new AirportRepository())->findByCountry($country, $limit);
                 $this->sendSuccessAirportsResponse($airports, $responseDataType);
                 break;
             case "POST":
@@ -44,8 +46,9 @@ class AirportController extends BaseController{
     /*
      *  Finds an airport by city name.
      *
-     *  GET /City/{city-name}.{json|xml}
+     *  GET /City/{city-name}.{json|xml}?limit={limit}
      *  {city-name}: Required
+     *  {limit}: Optional
      */
     public function City()
     {
@@ -54,7 +57,8 @@ class AirportController extends BaseController{
                 $city = $_GET["paramOne"] ? $_GET["paramOne"] : $this->sendBadRequestResponse("Undefined city.");
                 $responseDataType = $_GET["format"] ? $_GET["format"] : $this->sendBadRequestResponse(ErrorConstants::UNDEFINED_FORMAT_TYPE_MESSAGE);
 
-                $airports = (new AirportRepository())->findByCity($city);
+                $limit = isset($_GET["limit"]) ? $_GET["limit"] :  "";
+                $airports = (new AirportRepository())->findByCity($city, $limit);
                 $this->sendSuccessAirportsResponse($airports, $responseDataType);
                 break;
             case "POST":
@@ -75,8 +79,9 @@ class AirportController extends BaseController{
     /*
      *  Finds an airport by IATA (3 letter code).
      *
-     *  GET /IATA/{3-letter-code}.{json|xml}
+     *  GET /IATA/{3-letter-code}.{json|xml}?limit={limit}
      *  {3-letter-code}: Required
+     *  {limit}: Optional
      */
     public function IATA()
     {
@@ -85,7 +90,8 @@ class AirportController extends BaseController{
                 $iata = $_GET["paramOne"] ? $_GET["paramOne"] : $this->sendBadRequestResponse("Undefined IATA (3 letter code).");
                 $responseDataType = $_GET["format"] ? $_GET["format"] : $this->sendBadRequestResponse(ErrorConstants::UNDEFINED_FORMAT_TYPE_MESSAGE);
 
-                $airports = (new AirportRepository())->findByIATA($iata);
+                $limit = isset($_GET["limit"]) ? $_GET["limit"] :  "";
+                $airports = (new AirportRepository())->findByIATA($iata, $limit);
                 $this->sendSuccessAirportsResponse($airports, $responseDataType);
                 break;
             case "POST":
@@ -106,8 +112,9 @@ class AirportController extends BaseController{
     /*
     *  Finds an airport by Name.
     *
-    *  GET /Name/{airport-name}.{json|xml}
+    *  GET /Name/{airport-name}.{json|xml}?limit={limit}
     *  {airport-name}: Required
+    *  {limit}: Optional
     */
     public function Name()
     {
@@ -116,7 +123,8 @@ class AirportController extends BaseController{
                 $name = $_GET["paramOne"] ? $_GET["paramOne"] : $this->sendBadRequestResponse("Undefined name for airport.");
                 $responseDataType = $_GET["format"] ? $_GET["format"] : $this->sendBadRequestResponse(ErrorConstants::UNDEFINED_FORMAT_TYPE_MESSAGE);
 
-                $airports = (new AirportRepository())->findByName($name);
+                $limit = isset($_GET["limit"]) ? $_GET["limit"] :  "";
+                $airports = (new AirportRepository())->findByName($name, $limit);
                 $this->sendSuccessAirportsResponse($airports, $responseDataType);
                 break;
             case "POST":
@@ -137,8 +145,9 @@ class AirportController extends BaseController{
     /*
     *  Finds an airport by altitude.
     *
-    *  GET /Altitude/{altitude}.{json|xml}
+    *  GET /Altitude/{altitude}.{json|xml}?limit={limit}
     *  {altitude}: Required
+    *  {limit}: Optional
     */
     public function Altitude()
     {
@@ -150,7 +159,8 @@ class AirportController extends BaseController{
                     $this->sendBadRequestResponse("Altitude '$altitude', is invalid.");
                 }
 
-                $airports = (new AirportRepository())->findByAltitude($altitude);
+                $limit = isset($_GET["limit"]) ? $_GET["limit"] :  "";
+                $airports = (new AirportRepository())->findByAltitude($altitude, $limit);
                 $this->sendSuccessAirportsResponse($airports, $responseDataType);
                 break;
             case "POST":
@@ -171,10 +181,11 @@ class AirportController extends BaseController{
     /*
      *  Finds an airport within defined radius of latitude and longitude.
      *
-     *  GET /Radius/{distance-km}.{json|xml}?lat={latitude}&long={longitude}
+     *  GET /Radius/{distance-km}.{json|xml}?lat={latitude}&long={longitude}&limit={limit}
      *  {distance-km}: Required
      *  {latitude}: Required
      *  {longitude}: Required
+     *  {limit}: Optional
      */
     public function Radius()
     {
@@ -185,7 +196,8 @@ class AirportController extends BaseController{
                 $long = isset($_GET["long"]) ? $_GET["long"] : $this->sendBadRequestResponse("Undefined longitude.");
                 $responseDataType = isset($_GET["format"]) ? $_GET["format"] : $this->sendBadRequestResponse(ErrorConstants::UNDEFINED_FORMAT_TYPE_MESSAGE);
 
-                $airports = (new AirportRepository())->findByRadius($distance, $lat, $long);
+                $limit = isset($_GET["limit"]) ? $_GET["limit"] :  "";
+                $airports = (new AirportRepository())->findByRadius($distance, $lat, $long, $limit);
                 $this->sendSuccessAirportsResponse($airports, $responseDataType);
                 break;
             case "POST":
