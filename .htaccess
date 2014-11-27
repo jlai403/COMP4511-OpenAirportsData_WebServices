@@ -8,3 +8,8 @@ RewriteRule api/v1/(.*)/(.*)/(.*)\.(json|xml)?(.*) api/v1/$1Controller.php?actio
 
 ErrorDocument 404 /api/v1/HttpErrorController.php?action=NotFound
 </IfModule>
+
+<IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "*"
+    Header set Access-Control-Allow-Credentials true
+</IfModule>
