@@ -1,5 +1,4 @@
 <?php
-
 require_once($_SERVER["DOCUMENT_ROOT"]."/api/v1/BaseController.php");
 require_once($_SERVER["DOCUMENT_ROOT"]."/api/v1/Model/Airport.php");
 require_once($_SERVER["DOCUMENT_ROOT"]."/api/v1/Model/AirportRepository.php");
@@ -23,6 +22,8 @@ class AirportController extends BaseController{
             case "GET":
                 $country = $_GET["paramOne"] ? $_GET["paramOne"] : $this->sendBadRequestResponse("Undefined country.");
                 $responseDataType = $_GET["format"] ? $_GET["format"] : $this->sendBadRequestResponse(ErrorConstants::UNDEFINED_FORMAT_TYPE_MESSAGE);
+
+                $this->trackApiRequest("/Airport/Country/$country.$responseDataType");
 
                 $limit = isset($_GET["limit"]) ? $_GET["limit"] :  "";
                 $airports = (new AirportRepository())->findByCountry($country, $limit);
@@ -57,6 +58,8 @@ class AirportController extends BaseController{
                 $city = $_GET["paramOne"] ? $_GET["paramOne"] : $this->sendBadRequestResponse("Undefined city.");
                 $responseDataType = $_GET["format"] ? $_GET["format"] : $this->sendBadRequestResponse(ErrorConstants::UNDEFINED_FORMAT_TYPE_MESSAGE);
 
+                $this->trackApiRequest("/Airport/City/$city.$responseDataType");
+
                 $limit = isset($_GET["limit"]) ? $_GET["limit"] :  "";
                 $airports = (new AirportRepository())->findByCity($city, $limit);
                 $this->sendSuccessAirportsResponse($airports, $responseDataType);
@@ -90,6 +93,8 @@ class AirportController extends BaseController{
                 $iata = $_GET["paramOne"] ? $_GET["paramOne"] : $this->sendBadRequestResponse("Undefined IATA (3 letter code).");
                 $responseDataType = $_GET["format"] ? $_GET["format"] : $this->sendBadRequestResponse(ErrorConstants::UNDEFINED_FORMAT_TYPE_MESSAGE);
 
+                $this->trackApiRequest("/Airport/IATA/$iata.$responseDataType");
+
                 $limit = isset($_GET["limit"]) ? $_GET["limit"] :  "";
                 $airports = (new AirportRepository())->findByIATA($iata, $limit);
                 $this->sendSuccessAirportsResponse($airports, $responseDataType);
@@ -122,6 +127,8 @@ class AirportController extends BaseController{
             case "GET":
                 $name = $_GET["paramOne"] ? $_GET["paramOne"] : $this->sendBadRequestResponse("Undefined name for airport.");
                 $responseDataType = $_GET["format"] ? $_GET["format"] : $this->sendBadRequestResponse(ErrorConstants::UNDEFINED_FORMAT_TYPE_MESSAGE);
+
+                $this->trackApiRequest("/Airport/Name/$name.$responseDataType");
 
                 $limit = isset($_GET["limit"]) ? $_GET["limit"] :  "";
                 $airports = (new AirportRepository())->findByName($name, $limit);
@@ -159,6 +166,8 @@ class AirportController extends BaseController{
                     $this->sendBadRequestResponse("Altitude '$altitude', is invalid.");
                 }
 
+                $this->trackApiRequest("/Airport/Altitude/$altitude.$responseDataType");
+
                 $limit = isset($_GET["limit"]) ? $_GET["limit"] :  "";
                 $airports = (new AirportRepository())->findByAltitude($altitude, $limit);
                 $this->sendSuccessAirportsResponse($airports, $responseDataType);
@@ -195,6 +204,8 @@ class AirportController extends BaseController{
                 $lat = isset($_GET["lat"]) ? $_GET["lat"] : $this->sendBadRequestResponse("Undefined latitude.");
                 $long = isset($_GET["long"]) ? $_GET["long"] : $this->sendBadRequestResponse("Undefined longitude.");
                 $responseDataType = isset($_GET["format"]) ? $_GET["format"] : $this->sendBadRequestResponse(ErrorConstants::UNDEFINED_FORMAT_TYPE_MESSAGE);
+
+                $this->trackApiRequest("/Airport/Radius/$distance.$responseDataType?lat=$lat&long=$long");
 
                 $limit = isset($_GET["limit"]) ? $_GET["limit"] :  "";
                 $airports = (new AirportRepository())->findByRadius($distance, $lat, $long, $limit);
